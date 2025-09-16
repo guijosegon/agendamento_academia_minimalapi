@@ -66,9 +66,14 @@ namespace AgendamentoAcademia.API.Application.Services
             .OrderByDescending(o => o.Quantidade)
             .ToListAsync(cancellationToken);
 
+            var fator = total == 0 ? 0 : 100.0 / total;
+
             var aulasFrequentes = groups
-            .Select(s => (Tipo: s.Tipo.ToString(), s.Quantidade, Porcentagem: total == 0 ? 0 : Math.Round(100.0 * s.Quantidade / total, 2)))
-            .ToList();
+                .Select(s => new AulaFrequenteItem(
+                    Tipo: s.Tipo.ToString(),
+                    Quantidade: s.Quantidade,
+                    Porcentagem: Math.Round(s.Quantidade * fator, 2, MidpointRounding.AwayFromZero)))
+                .ToList();
 
             return new RelatorioMensalPorAluno(aluno.Id, aluno.Nome, ano, mes, total, aulasFrequentes);
         }

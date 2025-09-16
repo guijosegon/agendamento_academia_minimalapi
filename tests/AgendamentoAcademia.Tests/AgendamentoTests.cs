@@ -22,7 +22,7 @@ namespace AgendamentoAcademia.Tests
 
             var aluno1 = new Aluno { Nome = "Anual 1", Plano = Enums.TipoPlano.Anual };
             var aluno2 = new Aluno { Nome = "Anual 2", Plano = Enums.TipoPlano.Anual };
-            var aula = new Aula { Tipo = Enums.TipoAula.Cross, DataHora = DateTime.Now, Capacidade = 1 };
+            var aula = new Aula { Tipo = Enums.TipoAula.Cross, DataHora = DateTimeOffset.Now, Capacidade = 1 };
 
             db.AddRange(aluno1, aluno2, aula);
             await db.SaveChangesAsync();
@@ -42,13 +42,13 @@ namespace AgendamentoAcademia.Tests
 
             for (int i = 0; i < 12; i++)
             {
-                var aula = new Aula { Tipo = Enums.TipoAula.Funcional, DataHora = new DateTime(2025, 9, 30, 10, 0, 0), Capacidade = 5 };
+                var aula = new Aula { Tipo = Enums.TipoAula.Funcional, DataHora = new DateTimeOffset(2025, 9, 30, 10, 0, 0, TimeSpan.Zero), Capacidade = 5 };
                 db.Aulas.Add(aula);
                 await db.SaveChangesAsync();
                 await service.BookAsync(aluno.Id, aula.Id);
             }
 
-            var extra = new Aula { Tipo = Enums.TipoAula.Funcional, DataHora = new DateTime(2025, 9, 30, 10, 0, 0), Capacidade = 5 };
+            var extra = new Aula { Tipo = Enums.TipoAula.Funcional, DataHora = new DateTimeOffset(2025, 9, 30, 10, 0, 0, TimeSpan.Zero), Capacidade = 5 };
             db.Aulas.Add(extra);
             await db.SaveChangesAsync();
 
@@ -63,9 +63,9 @@ namespace AgendamentoAcademia.Tests
             var service = new AgendamentoService(db);
 
             var aluno = new Aluno { Nome = "Carla", Plano = Enums.TipoPlano.Anual };
-            var aula1 = new Aula { Tipo = Enums.TipoAula.Cross, DataHora = new DateTime(2025, 9, 1, 9, 0, 0), Capacidade = 10 };
-            var aula2 = new Aula { Tipo = Enums.TipoAula.Pilates, DataHora = new DateTime(2025, 9, 2, 9, 0, 0), Capacidade = 10 };
-            var aula3 = new Aula { Tipo = Enums.TipoAula.Pilates, DataHora = new DateTime(2025, 9, 3, 9, 0, 0), Capacidade = 10 };
+            var aula1 = new Aula { Tipo = Enums.TipoAula.Cross, DataHora = new DateTimeOffset(2025, 9, 1, 9, 0, 0, TimeSpan.Zero), Capacidade = 10 };
+            var aula2 = new Aula { Tipo = Enums.TipoAula.Pilates, DataHora = new DateTimeOffset(2025, 9, 1, 9, 0, 0, TimeSpan.Zero), Capacidade = 10 };
+            var aula3 = new Aula { Tipo = Enums.TipoAula.Pilates, DataHora = new DateTimeOffset(2025, 9, 1, 9, 0, 0, TimeSpan.Zero), Capacidade = 10 };
 
             db.AddRange(aluno, aula1, aula2, aula3);
             await db.SaveChangesAsync();

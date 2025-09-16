@@ -3,7 +3,8 @@
     public class AgendamentoDTOs
     {
         public record AgendamentoRequest(int AlunoId, int AulaId);
-        public record AgendamentoResponse(int Id, int AlunoId, int AulaId, DateTime Date);
+        public record AgendamentoResponse(int Id, int AlunoId, int AulaId, DateTimeOffset DataHora);
+        public record AulaFrequenteItem(string Tipo, int Quantidade, double Porcentagem);
 
         public record RelatorioMensalPorAluno(
             int AlunoId,
@@ -11,7 +12,7 @@
             int Ano,
             int Mes,
             int TotalAgendamentos,
-            IReadOnlyList<(string Tipo, int Quantidade, double Porcentagem)> AulasFrequentes
+            IReadOnlyList<AulaFrequenteItem> AulasFrequentes
         );
     }
 }

@@ -7,6 +7,6 @@
         public Aluno Aluno { get; set; }
         public int AulaId { get; set; }
         public Aula Aula { get; set; }
-        public DateTime DataHora { get; set; }
+        public DateTimeOffset DataHora { get; set; }
     }
 }

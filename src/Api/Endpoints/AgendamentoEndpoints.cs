@@ -25,7 +25,9 @@ namespace AgendamentoAcademia.API.Api.Endpoints
                 {
                     return Results.BadRequest(new { code = "BUSINESS_RULE", message = ex.Message });
                 }
-            });
+            })
+            .Produces<AgendamentoResponse>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status400BadRequest);
 
             return app;
         }

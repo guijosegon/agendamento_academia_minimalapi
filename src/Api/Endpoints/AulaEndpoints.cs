@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using static AgendamentoAcademia.API.Domain.Extensions.Enums;
 using static AgendamentoAcademia.API.Application.DTOs.AulaDTOs;
+using static AgendamentoAcademia.API.Application.DTOs.AlunoDTOs;
 
 namespace AgendamentoAcademia.API.Api.Endpoints
 {
@@ -18,7 +19,7 @@ namespace AgendamentoAcademia.API.Api.Endpoints
                 var aula = new Aula
                 {
                     Tipo = request.Tipo,
-                    DataHora = request.Data,
+                    DataHora = request.DataHora,
                     Capacidade = request.Capacidade
                 };
 
@@ -26,14 +27,17 @@ namespace AgendamentoAcademia.API.Api.Endpoints
                 await db.SaveChangesAsync();
 
                 return Results.Created($"/aulas/{aula.Id}", new AulaResponse(aula.Id, aula.Tipo, aula.DataHora, aula.Capacidade));
-            });
+            })
+            .Produces<AulaResponse>(StatusCodes.Status200OK);
 
             map.MapGet("/{id:int}", async (int id, AcademiaDbContext db) =>
             {
                 var aula = await db.Aulas.AsQueryable().FirstOrDefaultAsync(f => f.Id == id);
 
                 return aula is null ? Results.NotFound() : Results.Ok(new AulaResponse(aula.Id, aula.Tipo, aula.DataHora, aula.Capacidade));
-            });
+            })
+            .Produces<AulaResponse>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status404NotFound);
 
             map.MapGet("/", async ([FromQuery] DateTime? dataHotaInicio, [FromQuery] DateTime? dataHotaFim, [FromQuery] TipoAula? tipo, AcademiaDbContext db) =>
             {
@@ -49,7 +53,8 @@ namespace AgendamentoAcademia.API.Api.Endpoints
                     .ToListAsync();
 
                 return Results.Ok(list);
-            });
+            })
+            .Produces<List<AulaResponse>>(StatusCodes.Status200OK);
 
             return app;
         }

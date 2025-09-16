@@ -7,14 +7,14 @@ namespace AgendamentoAcademia.API.Application.DTOs
     {
         public record AulaRequest(
             [property: Required] Enums.TipoAula Tipo,
-            [property: Required] DateTime Data,
+            [property: Required] DateTimeOffset DataHora,
             [property: Range(1, 500)] int Capacidade
         );
 
         public record AulaResponse(
             int Id,
             Enums.TipoAula Tipo,
-            DateTime Data,
+            DateTimeOffset DataHora,
             int Capacidade
         );
     }
