@@ -137,7 +137,7 @@ Retorna o relatório mensal do aluno (usa `AgendamentoService.ReportAsync`).
   "totalAgendamentos": 3,
   "aulasFrequentes": [
     { "tipo": "Pilates", "quantidade": 2, "porcentagem": 66.67 },
-    { "tipo": "Cross",   "quantidade": 1, "porcentagem": 33.33 }
+    { "tipo": "Cross", "quantidade": 1, "porcentagem": 33.33 }
   ]
 }
 ```
@@ -172,7 +172,7 @@ Agenda um aluno em uma aula.
 ```json
 {
   "alunoId": 1,
-  "aulaId":  3
+  "aulaId": 3
 }
 ```
 **Respostas possíveis**
