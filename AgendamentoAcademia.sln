@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendamentoAcademia.API", "src\AgendamentoAcademia.API.csproj", "{65FCDDAA-3724-4248-A65E-16D3B47F253F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendamentoAcademia.Tests", "tests\AgendamentoAcademia.Tests\AgendamentoAcademia.Tests.csproj", "{FD5F2EC6-CA37-4274-B277-AE94A380BC0F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{65FCDDAA-3724-4248-A65E-16D3B47F253F} = {65FCDDAA-3724-4248-A65E-16D3B47F253F}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{65FCDDAA-3724-4248-A65E-16D3B47F253F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65FCDDAA-3724-4248-A65E-16D3B47F253F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65FCDDAA-3724-4248-A65E-16D3B47F253F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65FCDDAA-3724-4248-A65E-16D3B47F253F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD5F2EC6-CA37-4274-B277-AE94A380BC0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD5F2EC6-CA37-4274-B277-AE94A380BC0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD5F2EC6-CA37-4274-B277-AE94A380BC0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD5F2EC6-CA37-4274-B277-AE94A380BC0F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
