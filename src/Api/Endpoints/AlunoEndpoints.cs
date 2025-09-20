@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using static AgendamentoAcademia.API.Application.DTOs.AgendamentoDTOs;
 using static AgendamentoAcademia.API.Application.DTOs.AlunoDTOs;
+using static AgendamentoAcademia.API.Application.DTOs.AulaDTOs;
 
 namespace AgendamentoAcademia.API.Api.Endpoints
 {
@@ -12,7 +13,7 @@ namespace AgendamentoAcademia.API.Api.Endpoints
     {
         public static IEndpointRouteBuilder MapAlunos(this IEndpointRouteBuilder app)
         {
-            var map = app.MapGroup("/alunos").WithTags("Alunos");
+            var map = app.MapGroup("api/alunos").WithTags("Alunos");
 
             map.MapPost("/", async ([FromBody] AlunoRequest request, AcademiaDbContext db) =>
             {
@@ -70,6 +71,18 @@ namespace AgendamentoAcademia.API.Api.Endpoints
             })
             .Produces<RelatorioMensalPorAluno>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status400BadRequest)
+            .Produces(StatusCodes.Status404NotFound);
+
+            map.MapDelete("/{id:int}", async (int id, AcademiaDbContext db) =>
+            {
+                var aluno = await db.Alunos.AsTracking().FirstOrDefaultAsync(f => f.Id == id);
+
+                if (aluno is not null)
+                    db.Remove(aluno);
+
+                return aluno is null ? Results.NotFound() : Results.Ok();
+            })
+            .Produces<AulaResponse>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound);
 
             return app;

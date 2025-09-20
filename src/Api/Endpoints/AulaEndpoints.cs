@@ -12,7 +12,7 @@ namespace AgendamentoAcademia.API.Api.Endpoints
     {
         public static IEndpointRouteBuilder MapAulas(this IEndpointRouteBuilder app)
         {
-            var map = app.MapGroup("/aulas").WithTags("Aulas");
+            var map = app.MapGroup("api/aulas").WithTags("Aulas");
 
             map.MapPost("/", async ([FromBody] AulaRequest request, AcademiaDbContext db) =>
             {
@@ -55,6 +55,18 @@ namespace AgendamentoAcademia.API.Api.Endpoints
                 return Results.Ok(list);
             })
             .Produces<List<AulaResponse>>(StatusCodes.Status200OK);
+
+            map.MapDelete("/{id:int}", async (int id, AcademiaDbContext db) =>
+            {
+                var aula = await db.Aulas.AsTracking().FirstOrDefaultAsync(f => f.Id == id);
+
+                if(aula is not null)
+                    db.Remove(aula);
+
+                return aula is null ? Results.NotFound() : Results.Ok();
+            })
+            .Produces<AulaResponse>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status404NotFound);
 
             return app;
         }

@@ -2,6 +2,9 @@
 using AgendamentoAcademia.API.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 using static AgendamentoAcademia.API.Application.DTOs.AgendamentoDTOs;
+using AgendamentoAcademia.API.Infra;
+using static AgendamentoAcademia.API.Application.DTOs.AulaDTOs;
+using Microsoft.EntityFrameworkCore;
 
 namespace AgendamentoAcademia.API.Api.Endpoints
 {
@@ -9,7 +12,7 @@ namespace AgendamentoAcademia.API.Api.Endpoints
     {
         public static IEndpointRouteBuilder MapAgendamentos(this IEndpointRouteBuilder app)
         {
-            var map = app.MapGroup("/agendamentos").WithTags("Agendamentos");
+            var map = app.MapGroup("api/agendamentos").WithTags("Agendamentos");
 
             map.MapPost("/", async ([FromBody] AgendamentoRequest request, AgendamentoService service) =>
             {
@@ -28,6 +31,27 @@ namespace AgendamentoAcademia.API.Api.Endpoints
             })
             .Produces<AgendamentoResponse>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status400BadRequest);
+
+            map.MapGet("/{id:int}", async (int id, AcademiaDbContext db) =>
+            {
+                var agendamento = await db.Agendamentos.AsQueryable().FirstOrDefaultAsync(f => f.Id == id);
+
+                return agendamento is null ? Results.NotFound() : Results.Ok(new AgendamentoResponse(agendamento.Id, agendamento.AlunoId, agendamento.AulaId, agendamento.DataHora));
+            })
+            .Produces<AulaResponse>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status404NotFound);
+
+            map.MapDelete("/{id:int}", async (int id, AcademiaDbContext db) =>
+            {
+                var agendamento = await db.Agendamentos.AsTracking().FirstOrDefaultAsync(f => f.Id == id);
+
+                if (agendamento is not null)
+                    db.Remove(agendamento);
+
+                return agendamento is null ? Results.NotFound() : Results.Ok();
+            })
+            .Produces<AulaResponse>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status404NotFound);
 
             return app;
         }
